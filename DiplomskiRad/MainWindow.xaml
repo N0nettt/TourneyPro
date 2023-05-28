@@ -1,0 +1,29 @@
+﻿<Window x:Class="DiplomskiRad.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DiplomskiRad"
+        WindowStartupLocation="CenterScreen"   
+        mc:Ignorable="d"
+        Title="MainWindow" Height="920" Width="1440">
+    <Window.Background>
+        <ImageBrush ImageSource="img/test.jpeg"></ImageBrush>
+    </Window.Background>
+    <Window.Resources>
+        <DataTemplate x:Key="PrikazUcesnika">
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <TextBlock Text="{Binding nazivUcesnika}"></TextBlock>
+                <TextBlock Text="          "></TextBlock>
+                <TextBlock Text="{Binding jmbg}"></TextBlock>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <TextBlock Name="tbNaslov" HorizontalAlignment="Left" Margin="468,53,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="42" Width="458" Foreground="#FFFFE258" FontSize="24" FontWeight="Bold" TextAlignment="Center"/>
+        <TextBlock Name="tbInfo" HorizontalAlignment="Left" Margin="59,125,0,0" TextWrapping="Wrap" Text="dwqdwdwqd" VerticalAlignment="Top" Height="123" Width="360" FontSize="18" Foreground="Black" Background="#95FFFFFF" FontWeight="Bold"/>
+        <ListBox Name="lbUcesnici"  ItemTemplate="{StaticResource PrikazUcesnika}" Margin="59,347,1003,272" Background="#95FFFFFF" FontSize="16" FontWeight="Bold"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="59,716,0,0" VerticalAlignment="Top"  Height="74" Width="154" Click="DodajUcesnika"/>
+    </Grid>
+</Window>
