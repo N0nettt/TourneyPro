@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace DiplomskiRad.Classes
@@ -14,7 +16,7 @@ namespace DiplomskiRad.Classes
         private DateTime date;
         private int brojUcesnika;
         private string tipTakmicenja;
-        private List<Ucesnik> ucesnici;
+        private ObservableCollection<Ucesnik> ucesnici;
         private Ucesnik? pobednik;
         public Zreb zreb;
         
@@ -26,14 +28,14 @@ namespace DiplomskiRad.Classes
             this.brojUcesnika = brojUcesnika;
             this.tipTakmicenja = tipTakmicenja;
             this.zreb = new Zreb(this);
-            ucesnici = new List<Ucesnik>();        
+            ucesnici = new ObservableCollection<Ucesnik>();        
         }
 
-        public bool KreirajZreb()
+        public bool KonstruisiZreb()
         {
             if(ucesnici.Count() == brojUcesnika)
             {
-                this.zreb.KreirajZreb();
+                this.zreb.KonstruisiZreb();
                 return true;
             }
             return false;
@@ -42,6 +44,7 @@ namespace DiplomskiRad.Classes
         #region GettersAndSetters
         public void ProglasiPobednika(Ucesnik pobednik)
         {
+            MessageBox.Show("Pobednik takmicenja je: " + pobednik.GetNazivUcesnika(), "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Information);
             this.pobednik = pobednik;
         }
         public string GetPobednik()
@@ -86,7 +89,7 @@ namespace DiplomskiRad.Classes
         {
             this.tipTakmicenja = tipTakmicenja;
         }
-        public List<Ucesnik> GetUcesnici()
+        public ObservableCollection<Ucesnik> GetUcesnici()
         {
             return ucesnici;
         }
@@ -101,9 +104,29 @@ namespace DiplomskiRad.Classes
             return false;
         } 
 
-        public void SetUcesnici(List<Ucesnik> u)
+        public void SetUcesnici(ObservableCollection<Ucesnik> u)
         {
             this.ucesnici = u;
+        }
+
+        public void RemoveParticipant(Ucesnik u)
+        {
+            ucesnici.Remove(u);
+        }
+
+        public int GetNumOfRegisteredParticipants()
+        {
+            return ucesnici.Count;
+        }
+
+        public void ResetBracket()
+        {
+            zreb.ResetBracket();
+        }
+
+        public void SetSpecificParticipant(int index, Ucesnik u)
+        {
+            ucesnici[index] = u;
         }
         #endregion
 

@@ -20,10 +20,11 @@ namespace DiplomskiRad
     /// </summary>
     public partial class Window1 : Window
     {
+        DateTime date;
         public Window1()
         {
             InitializeComponent();
-            DateTime date = DateTime.Now;
+            date = DateTime.Now;
             datum.SelectedDate = date;
             datum.DisplayDateStart = DateTime.Today;
         }
@@ -31,11 +32,11 @@ namespace DiplomskiRad
         //Creating new tournament on a button click
         private void btnKreirajTakmicenje_Click(object sender, RoutedEventArgs e)
         {
-            //Checking if every information is given
+            //Checking if every information is inputed by a user
             if(!String.IsNullOrEmpty(tbNazivTakmicenja.Text) && cbBrojUcesnika.SelectedIndex != -1 && (rbEkipno.IsChecked == true || rbIndividualno.IsChecked == true))
             {
-               DateTime date = (DateTime)datum.SelectedDate;
-               String tip = "";
+               date = (DateTime)datum.SelectedDate;
+               String tip;
                int brojUcensika;
                int.TryParse(cbBrojUcesnika.Text, out brojUcensika);
                if(rbEkipno.IsChecked == true)
@@ -55,7 +56,8 @@ namespace DiplomskiRad
             }
             else
             {
-                MessageBox.Show("Morate uneti sve informacije o takmičenju", "Obaveštenje");
+                MessageBox.Show("Morate uneti sve informacije o takmičenju", "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Stop);
+                
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿<Window x:Class="DiplomskiRad.DodajEkipu" 
+﻿<Window x:Class="DiplomskiRad.EditParticipant" 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,15 +7,9 @@
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
-        Title="Dodaj Ekipu" Height="450" Width="350">
+        Title="Edit Participant" Height="269" Width="350">
     <Window.Resources>
-        <DataTemplate x:Key="PrikazTakmicara">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <TextBlock Margin="0,0,50,0" Text="{Binding nazivUcesnika}"></TextBlock>
-                <TextBlock Text="{Binding jmbg}"></TextBlock>
-            </StackPanel>
-        </DataTemplate>
-        <Style x:Key="FocusVisual">
+            <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
                     <ControlTemplate>
@@ -80,10 +74,11 @@
             <ColumnDefinition Width="8*"/>
             <ColumnDefinition Width="17*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Naziv ekipe:" HorizontalAlignment="Left" Margin="8,26,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <TextBox Name="tbNazivEkipe" HorizontalAlignment="Left" Margin="57,30,0,0" TextWrapping="NoWrap"  Text="" BorderThickness="0 0 0 1"  VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="1"/>
-        <Button Style="{DynamicResource ButtonStyle}"  Name="btnDodajUcesnika"  Content="Dodaj takmičara" HorizontalAlignment="Left" Margin="104,311,0,0" VerticalAlignment="Top" Height="37" Width="142" RenderTransformOrigin="0.42,-0.089" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Grid.ColumnSpan="2"  Click="DodajTakmičara"/>
-        <Button Style="{DynamicResource ButtonStyle}"  Name="btnKreirajTim"  Content="Kreiraj ekipu" HorizontalAlignment="Left" Margin="30,362,0,0" VerticalAlignment="Top" Height="37" Width="293" RenderTransformOrigin="0.42,-0.089" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Grid.ColumnSpan="2"  Click="KreirajTeam" />
-        <ListBox Name="lbClanoviEkipe"  ItemTemplate="{StaticResource PrikazTakmicara}"  Margin="10,76,2,153" Grid.ColumnSpan="2" Background="#95FFFFFF" FontSize="16" FontWeight="Bold" />
+        <Label Content="Naziv takmičara:" HorizontalAlignment="Left" Margin="8,26,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <TextBox Name="tbNazivTakmicara" HorizontalAlignment="Left" Margin="57,30,0,0" TextWrapping="NoWrap"  Text="" BorderThickness="0 0 0 1"  VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="1"/>
+        <Label Content="JMBG:" HorizontalAlignment="Left" Margin="92,80,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <TextBox Name="tbJMBG" HorizontalAlignment="Left" Margin="57,89,0,0" TextWrapping="NoWrap"  Text="" BorderThickness="0 0 0 1"  VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="1"/>
+        <Button Style="{DynamicResource ButtonStyle}" Click="Edit" Name="btnEditParticipant"  Content="Edit Participant" HorizontalAlignment="Left" Margin="56,160,0,0" VerticalAlignment="Top" Height="37" Width="238" RenderTransformOrigin="0.42,-0.089" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Grid.ColumnSpan="2"/>
+
     </Grid>
 </Window>

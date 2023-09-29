@@ -9,11 +9,6 @@
         WindowStartupLocation="CenterScreen"
         Title="Dodaj Takmicara" Height="269" Width="350">
     <Window.Resources>
-        <DataTemplate x:Key="PrikazTakmicara">
-            <StackPanel Margin="10" Orientation="Horizontal">
-                <TextBlock Text="{Binding nazivUcesnika}"></TextBlock>
-            </StackPanel>
-        </DataTemplate>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -83,7 +78,7 @@
         <TextBox Name="tbNazivTakmicara" HorizontalAlignment="Left" Margin="57,30,0,0" TextWrapping="NoWrap"  Text="" BorderThickness="0 0 0 1"  VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="1"/>
         <Label Content="JMBG:" HorizontalAlignment="Left" Margin="92,80,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold" Grid.ColumnSpan="2"/>
         <TextBox Name="tbJMBG" HorizontalAlignment="Left" Margin="57,89,0,0" TextWrapping="NoWrap"  Text="" BorderThickness="0 0 0 1"  VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="1"/>
-        <Button Style="{DynamicResource ButtonStyle}" Click="DodajUcesnika" Name="btnKreirajTakmicenje"  Content="Dodaj takmičara" HorizontalAlignment="Left" Margin="56,160,0,0" VerticalAlignment="Top" Height="37" Width="238" RenderTransformOrigin="0.42,-0.089" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Grid.ColumnSpan="2"/>
+        <Button Style="{DynamicResource ButtonStyle}" Click="DodajUcesnika" Name="btnAddParticipant"  Content="Dodaj takmičara" HorizontalAlignment="Left" Margin="56,160,0,0" VerticalAlignment="Top" Height="37" Width="238" RenderTransformOrigin="0.42,-0.089" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>

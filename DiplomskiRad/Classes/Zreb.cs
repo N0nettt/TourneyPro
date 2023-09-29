@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,44 +9,65 @@ namespace DiplomskiRad.Classes
 {
     public class Zreb
     {
-        private Takmicenje takmicenje;
-        public List<Kolo> listaKola;
+        public Takmicenje takmicenje;
+        public ObservableCollection<Kolo> listaKola;
         
-
         public Zreb(Takmicenje takmicenje)
         {
             this.takmicenje = takmicenje;
-            listaKola = new List<Kolo>();
+            listaKola = new ObservableCollection<Kolo>();
         }
-
-        public void KreirajZreb()
+        public void KonstruisiZreb()
         {
             double brojKola = Math.Log2(takmicenje.GetBrojUcesnika());
             KreirajKola(brojKola);
-            GenerisiProtivnike(listaKola[0], takmicenje.GetUcesnici());
-            
+            GenerisiProtivnike(listaKola, takmicenje.GetUcesnici());
+            int mecID = listaKola[0].GetMecevi().Count() + 1;
+            for(int i=1; i<listaKola.Count(); i++)
+            {
+                double mecevaPoRundi = MecevaPoRundi(takmicenje.GetBrojUcesnika(), i);
+                for(int j=0; j<mecevaPoRundi; j++)
+                {
+                    Mec mec = new Mec(mecID, listaKola[i]);
+                    listaKola[i].DodajMec(mec);
+                    mecID++;
+                }
+            }
+   
         }
 
-        private void GenerisiProtivnike(Kolo prvoKolo, List<Ucesnik> ucesnici)
+        // Returns number of mathces per round
+        public double MecevaPoRundi(int totalTeams, int currentRound)
+        {
+            var result = (totalTeams / Math.Pow(2, currentRound)) / 2;
+
+            // Happens if you exceed the maximum possible rounds given number of teams
+            if (result < 1.0F) throw new InvalidOperationException();
+
+            return result;
+        }
+
+        //Selecting opponenets randomly for the matches of the 1st round
+        private void GenerisiProtivnike(ObservableCollection<Kolo> listaKola, ObservableCollection<Ucesnik> ucesnici)
         {
             Random random = new Random();
             Ucesnik prviUcesnik;
             Ucesnik drugiUcesnik;
-            int i = 0;
-            while(ucesnici.Count > 0)
+            ObservableCollection<Ucesnik> u = new ObservableCollection<Ucesnik>(ucesnici);
+            int i = 1;
+            while (u.Count > 0)
             {
-                int randomNumber = random.Next(ucesnici.Count());
-                prviUcesnik = ucesnici[randomNumber];
-                ucesnici.RemoveAt(randomNumber);
-                randomNumber = random.Next(ucesnici.Count());
-                drugiUcesnik = ucesnici[randomNumber];
-                ucesnici.RemoveAt(randomNumber);
-
-                Mec mec = new Mec(i, prvoKolo);
+                int randomNumber = random.Next(u.Count());
+                prviUcesnik = u[randomNumber];
+                u.RemoveAt(randomNumber);
+                randomNumber = random.Next(u.Count());
+                drugiUcesnik = u[randomNumber];
+                u.RemoveAt(randomNumber);
+                Mec mec = new Mec(i, listaKola[0]);
                 mec.unesiUcesnika(prviUcesnik);
                 mec.unesiUcesnika(drugiUcesnik);
-
-                prvoKolo.DodajMec(mec);
+                listaKola[0].DodajMec(mec);
+                i++;
             }
         }
 
@@ -55,6 +77,16 @@ namespace DiplomskiRad.Classes
             {
                 listaKola.Add(new Kolo(i + 1, this));
             }
+        }
+
+        public void ResetBracket()
+        {
+            foreach (Kolo k in listaKola)
+            {
+                k.mecevi.Clear();
+            }
+                listaKola.Clear();
+            
         }
 
     }

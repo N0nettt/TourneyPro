@@ -1,6 +1,7 @@
 ﻿using DiplomskiRad.Classes;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -21,8 +22,8 @@ namespace DiplomskiRad
     /// </summary>
     public partial class DodajTakmicara : Window
     {
-        public List<Ucesnik> ucesnici;
-        public DodajTakmicara(List<Ucesnik> u)
+        public ObservableCollection<Ucesnik> ucesnici;
+        public DodajTakmicara(ObservableCollection<Ucesnik> u)
         {
             InitializeComponent();
             ucesnici = u;    
@@ -40,16 +41,19 @@ namespace DiplomskiRad
             return nazivTakmicara;
         }
 
+        // Method for adding new individual participant to the tournamnet
         private void DodajUcesnika(object sender, RoutedEventArgs e)
         {
+            //Check if input fields are fullfiled
             if (!String.IsNullOrEmpty(tbNazivTakmicara.Text) && !String.IsNullOrEmpty(tbJMBG.Text))
             {
                 if(Int64.TryParse(tbJMBG.Text, out long result)) 
                 {
-                    if (tbJMBG.Text.Length == 13)
+                    //Check if JMBG has exactly 13 numbers in order to add new participant
+                    if (tbJMBG.Text.Length != 13)
                     {
-
                         bool exists = false;
+                        //Foreach method which goes through list and checks if player with inputed JMBG exists
                         foreach(Ucesnik u in ucesnici)
                         {
                             var a = ((Takmicar)u).GetJmbg();
@@ -60,7 +64,7 @@ namespace DiplomskiRad
                         }                            
                         if(exists == true)
                         {
-                            MessageBox.Show("Takmičar sa ovim JMBG-om već postoji!");
+                            MessageBox.Show("Takmičar sa ovim JMBG-om već postoji!", "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         }
                         else
                         {
@@ -72,18 +76,18 @@ namespace DiplomskiRad
                     }
                     else
                     {
-                        MessageBox.Show("JMBG mora da sadrži tačno 13 cifara!");
+                        MessageBox.Show("JMBG mora da sadrži tačno 13 cifara!", "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("JMBG može da sadrži samo brojeve!");
+                    MessageBox.Show("JMBG može da sadrži samo brojeve!", "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
             }
             else
             {
-                MessageBox.Show("Morate uneti sve informacije o takmičaru!", "Obaveštenje");
+                MessageBox.Show("Morate uneti sve informacije o takmičaru!", "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Error);
 
             }
 

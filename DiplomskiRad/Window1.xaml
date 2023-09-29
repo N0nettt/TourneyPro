@@ -88,7 +88,7 @@
         <RadioButton Name="rbEkipno" Content="Ekipno"  HorizontalAlignment="Left" Margin="57,144,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="14" Grid.Column="1"/>
         <RadioButton Name="rbIndividualno" Content="Individualno" HorizontalAlignment="Left" Margin="124,144,0,0" VerticalAlignment="Top" FontSize="14" FontFamily="Arial" Grid.Column="1"/>
         <Label Content="Datum početka:" HorizontalAlignment="Left" Margin="8,186,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <DatePicker SelectedDateFormat="Short" Name="datum" SelectedDate="" Focusable="False" HorizontalAlignment="Left" Margin="57,189,0,0" VerticalAlignment="Top" Width="148" Grid.Column="1"/>
+        <DatePicker SelectedDateFormat="Short" Name="datum" SelectedDate=""  Focusable="False" HorizontalAlignment="Left" Margin="57,189,0,0" VerticalAlignment="Top" Width="148" Grid.Column="1"/>
         <Button Style="{DynamicResource ButtonStyle}" Name="btnKreirajTakmicenje" Click="btnKreirajTakmicenje_Click" Content="Kreiraj takmičenje" HorizontalAlignment="Left" Margin="56,264,0,0" VerticalAlignment="Top" Height="37" Width="238" RenderTransformOrigin="0.42,-0.089" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Grid.ColumnSpan="2"/>
 
 

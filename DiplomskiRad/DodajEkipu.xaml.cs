@@ -1,6 +1,7 @@
 ﻿using DiplomskiRad.Classes;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,18 +21,18 @@ namespace DiplomskiRad
     /// </summary>
     public partial class DodajEkipu : Window
     {
-        public List<Ucesnik> ucesnici { get; set; }
+        public ObservableCollection<Ucesnik> ucesnici { get; set; }
         public Ekipa ekipa = new Ekipa("naziv");
-        private List<Takmicar> takmicari { get; set; }
-        public DodajEkipu(List<Ucesnik> u)
+        private ObservableCollection<Takmicar> takmicari { get; set; }
+        public DodajEkipu(ObservableCollection<Ucesnik> u)
         {
             InitializeComponent();
             ucesnici = u;
-            takmicari = new List<Takmicar>();         
+            takmicari = new ObservableCollection<Takmicar>();
         }
 
         // Method which adds a Takmicar in the team 
-         private void DodajTakmičara(object sender, RoutedEventArgs e)
+        private void DodajTakmičara(object sender, RoutedEventArgs e)
         {
             DodajTakmicara dodaj = new DodajTakmicara(ucesnici);
             if (dodaj.ShowDialog() == true)
@@ -39,7 +40,7 @@ namespace DiplomskiRad
                 lbClanoviEkipe.ItemsSource = null;
                 Takmicar ucesnik = new Takmicar(dodaj.GetNazivTakmicara(), dodaj.GetJMBG());
                 ekipa = TakmicarExists(ekipa, ucesnik);
-                takmicari = ekipa.GetTakmicari();   
+                takmicari = ekipa.GetTakmicari();
                 lbClanoviEkipe.ItemsSource = takmicari;
             }
         }
@@ -49,8 +50,8 @@ namespace DiplomskiRad
             bool nameExists = ucesnici.Any(u => u.GetNazivUcesnika() == tbNazivEkipe.Text);
             if (nameExists)
             {
-                MessageBox.Show("Ekipa sa ovim imenom već postoji, molimo vas promenite ime!");
-                
+                MessageBox.Show("Ekipa sa ovim imenom već postoji, molimo vas promenite ime!", "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+
             }
             else
             {
@@ -63,12 +64,13 @@ namespace DiplomskiRad
         //Check if Takmicar exists in the ekipa or in the tournament and adds if not
         private Ekipa TakmicarExists(Ekipa ekipa, Takmicar takmicar)
         {
-            List<Takmicar> listaIgraca = ekipa.GetTakmicari();
+            ObservableCollection<Takmicar> listaIgraca = ekipa.GetTakmicari();
             // Check if a player with the ID we want to create already exist in the team we are creating show msg if do
             bool existsInTeam = listaIgraca.Any(tak => tak.jmbg == takmicar.jmbg);
             if (existsInTeam)
             {
-                MessageBox.Show("Igrač sa tim JMBG-om već posotji", "Obaveštenje");
+                MessageBox.Show("Igrač sa tim JMBG-om već posotji", "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Error);
+
                 return ekipa;
             }
             bool existsInTournament = false;
@@ -77,7 +79,7 @@ namespace DiplomskiRad
             // Check if a player with the ID we want to create already exist in a team in the tournament and show msg if do
             foreach (Ekipa e in ucesnici)
             {
-                foreach(Takmicar t in e.takmicari)
+                foreach (Takmicar t in e.takmicari)
                 {
                     if (t.GetJmbg == takmicar.GetJmbg)
                     {
@@ -87,9 +89,9 @@ namespace DiplomskiRad
                     }
                 }
             }
-            if(existsInTournament)
+            if (existsInTournament)
             {
-                MessageBox.Show("Igrač sa tim JMBG-om već postoji u ekipi: " + teamName + ", pod nazivom: " + playerName);
+                MessageBox.Show("Igrač sa tim JMBG-om već postoji u ekipi: " + teamName + ", pod nazivom: " + playerName, "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Error);
                 return ekipa;
             }
             // Add a player to the team if it doesnt exist already in a team/tournament
@@ -98,11 +100,9 @@ namespace DiplomskiRad
                 ekipa.DodajTakmicara(takmicar);
                 return ekipa;
             }
-            
-            
-            
+
         }
 
-        
     }
+        
 }

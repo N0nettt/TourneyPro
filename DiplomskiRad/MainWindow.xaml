@@ -3,27 +3,118 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DiplomskiRad"
+        xmlns:local="clr-namespace:DiplomskiRad.Classes"
         WindowStartupLocation="CenterScreen"   
         mc:Ignorable="d"
+        ResizeMode="CanMinimize"
         Title="MainWindow" Height="920" Width="1440">
     <Window.Background>
         <ImageBrush ImageSource="img/test.jpeg"></ImageBrush>
     </Window.Background>
     <Window.Resources>
-        <DataTemplate x:Key="PrikazUcesnika">
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" CornerRadius="16" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter Property="Background" TargetName="border" Value="#FFFFE075"/>
+
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FFFF0303"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <DataTemplate x:Key="ParticipantsDisplay">
             <StackPanel Margin="10" Orientation="Horizontal">
                 <TextBlock Text="{Binding nazivUcesnika}"></TextBlock>
                 <TextBlock Text="          "></TextBlock>
                 <TextBlock Text="{Binding jmbg}"></TextBlock>
             </StackPanel>
         </DataTemplate>
+        <DataTemplate x:Key="EditingParticipants">
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <TextBlock Text="PERA ZDERA" FontSize="25"></TextBlock>
+            </StackPanel>
+        </DataTemplate>
     </Window.Resources>
-
     <Grid>
-        <TextBlock Name="tbNaslov" HorizontalAlignment="Left" Margin="468,53,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="42" Width="458" Foreground="#FFFFE258" FontSize="24" FontWeight="Bold" TextAlignment="Center"/>
-        <TextBlock Name="tbInfo" HorizontalAlignment="Left" Margin="59,125,0,0" TextWrapping="Wrap" Text="dwqdwdwqd" VerticalAlignment="Top" Height="123" Width="360" FontSize="18" Foreground="Black" Background="#95FFFFFF" FontWeight="Bold"/>
-        <ListBox Name="lbUcesnici"  ItemTemplate="{StaticResource PrikazUcesnika}" Margin="59,347,1003,272" Background="#95FFFFFF" FontSize="16" FontWeight="Bold"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="59,716,0,0" VerticalAlignment="Top"  Height="74" Width="154" Click="DodajUcesnika"/>
+        <TextBlock Name="tbNaslov" HorizontalAlignment="Left" Margin="468,53,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="42" Width="458" Foreground="#FFFFE258" FontSize="24" FontWeight="Bold" TextAlignment="Center"/>
+        <TextBlock Name="tbInfo" HorizontalAlignment="Left" Margin="59,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="123" FontSize="18" Foreground="Black" Background="#95FFFFFF" FontWeight="Bold" Width="390"/>
+        <TextBlock x:Name="countTextBlock" Text="" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="59,637,0,0"/>
+        <ListBox Name="lbUcesnici" ItemTemplate="{StaticResource ParticipantsDisplay}" Margin="59,348,973,271" Background="#95FFFFFF" FontSize="16" FontWeight="Bold"/>
+        <Button Style="{StaticResource ButtonStyle}" Name="btnAddParticipant" Content="Dodaj takičara" HorizontalAlignment="Left" Margin="59,716,0,0" VerticalAlignment="Top"  Height="55" Width="128" Click="DodajUcesnika" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341"/>
+        <Button Style="{StaticResource ButtonStyle}" Name="btnCreateBracket" Content="Kreiraj žreb" HorizontalAlignment="Left" Margin="633,650,0,0" VerticalAlignment="Top"  Height="55" Width="128" Click="KreirajZreb" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341"/>
+        <TreeView  Name="BracketTreeView" Background="#95FFFFFF"  Margin="543,125,589,271">
+
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type local:Kolo}" ItemsSource="{Binding mecevi}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontWeight="Bold" FontSize="15" FontFamily="Arial" Text="{Binding brojKola, StringFormat='Round: {0}'}"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type local:Mec}" ItemsSource="{Binding ucesnici}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding mecID, StringFormat='Match: {0}'}"/>
+                    </StackPanel>
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <DataTemplate  DataType="{x:Type local:Ucesnik}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding nazivUcesnika}"/>
+                                <RadioButton x:Name="rbWinner" Margin="15,0,0,0" Tag="{Binding}" Checked="WinnerSelected" GroupName="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem},AncestorLevel=2},Path=DataContext.mecID}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+        <Button Style="{StaticResource ButtonStyle}" Name="btnDeleteParticipant" Content="Remove participant" HorizontalAlignment="Left" Margin="321,716,0,0" VerticalAlignment="Top"  Height="55" Width="128" Click="RemoveParticipant" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341"/>
+        <Button Style="{StaticResource ButtonStyle}" Visibility="Collapsed" x:Name="btnResetBrascket" Content="Reset Bracket" HorizontalAlignment="Left" Margin="543,650,0,0" VerticalAlignment="Top"  Height="55" Width="308" Click="ResetBracket" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341"/>
+        <Button Style="{StaticResource ButtonStyle}" x:Name="btnEditParticipant" Content="Edit participant" HorizontalAlignment="Left" Margin="190,716,0,0" VerticalAlignment="Top"  Height="55" Width="128" Click="EditParticipant" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341"/>
+
+
     </Grid>
 </Window>

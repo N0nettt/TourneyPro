@@ -16,14 +16,14 @@ namespace DiplomskiRad.Classes
             return this.nazivUcesnika;
         }
 
-        public void SetNazivUcesnika(string naziv)
+        public void SetNazivUcesnika(string name)
         {
-            this.nazivUcesnika = naziv;
+            this.nazivUcesnika = name;
         }
 
-        public Ucesnik(string nazivUcesnika)
+        public Ucesnik(string name)
         {
-            this.nazivUcesnika = nazivUcesnika;
+            this.nazivUcesnika = name;
         }
 
 
