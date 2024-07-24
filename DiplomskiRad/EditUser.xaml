@@ -1,4 +1,4 @@
-﻿<Window x:Class="DiplomskiRad.EditParticipant" 
+﻿<Window x:Class="DiplomskiRad.EditUser" 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,6 +9,11 @@
         WindowStartupLocation="CenterScreen"
         Title="Edit Participant" Height="269" Width="350">
     <Window.Resources>
+        <DataTemplate x:Key="RolesTemplate">
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <TextBlock Text="{Binding RoleName}" />
+            </StackPanel>
+        </DataTemplate>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -74,11 +79,12 @@
             <ColumnDefinition Width="8*"/>
             <ColumnDefinition Width="17*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Name:" HorizontalAlignment="Left" Margin="8,26,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <TextBox Name="tbName" HorizontalAlignment="Left" Margin="10,30,0,0" TextWrapping="NoWrap"  Text="" BorderThickness="0 0 0 1"  VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="1"/>
-        <Label Content="Email:" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold"/>
-        <TextBox Name="tbEmail" HorizontalAlignment="Left" Margin="10,84,0,0" TextWrapping="NoWrap"  Text="" BorderThickness="0 0 0 1"  VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="1"/>
-        <Button Style="{DynamicResource ButtonStyle}" Click="Edit" Name="btnEditParticipant"  Content="Edit Participant" HorizontalAlignment="Left" Margin="56,160,0,0" VerticalAlignment="Top" Height="37" Width="238" RenderTransformOrigin="0.42,-0.089" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Grid.ColumnSpan="2"/>
-
+        <Label Content="Username:" HorizontalAlignment="Left" Margin="8,26,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <TextBox Name="tbUsername" IsReadOnly="True" HorizontalAlignment="Left" Margin="10,30,0,0" TextWrapping="NoWrap" Loaded="tbUsername_Loaded"  Text="" BorderThickness="0 0 0 1"  VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="1"/>
+        <Label Content="Email:" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold"/>
+        <TextBox Name="tbEmail" HorizontalAlignment="Left" Margin="10,80,0,0" TextWrapping="NoWrap"  Text="" BorderThickness="0 0 0 1"  VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="1"/>
+        <ComboBox Name="cbRoles" ItemTemplate="{StaticResource RolesTemplate}" SelectedValuePath="RoleID"  HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="1" RenderTransformOrigin="0.5,0.5"/>
+        <Button Style="{DynamicResource ButtonStyle}" Click="btnEditUser_Click" Name="btnEditUser"  Content="Edit User" HorizontalAlignment="Left" Margin="56,185,0,0" VerticalAlignment="Top" Height="37" Width="238" RenderTransformOrigin="0.42,-0.089" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Grid.ColumnSpan="2"/>
+        <Label Content="Role:" HorizontalAlignment="Left" Margin="10,122,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold"/>
     </Grid>
 </Window>

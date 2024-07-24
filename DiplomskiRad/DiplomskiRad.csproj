@@ -8,13 +8,30 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="img\main.jpg" />
+    <None Remove="img\prizes.jpg" />
     <None Remove="img\round.png" />
+    <None Remove="img\starting.jpg" />
     <None Remove="img\test.jpeg" />
     <None Remove="img\TrophieBackground.jpg" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.28" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="img\main.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\prizes.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="img\round.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\starting.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="img\test.jpeg">

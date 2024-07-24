@@ -7,8 +7,16 @@
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
-        Title="Kreiraj takmičenje" Height="400" Width="350">
+        Title="Create tournament" Height="400" Width="750
+        ">
     <Window.Resources>
+        <DataTemplate x:Key="TournamentTemplate">
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <TextBlock Text="{Binding tournamentName}" />
+                <TextBlock Text=" - " />
+                <TextBlock Text="{Binding date, StringFormat='{}{0:yyyy-MM-dd}'}" />
+            </StackPanel>
+        </DataTemplate>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -67,30 +75,48 @@
         </Style>
     </Window.Resources>
     <Window.Background>
-        <ImageBrush ImageSource="img/TrophieBackground.jpg"></ImageBrush>
+        <ImageBrush ImageSource="img/starting.jpg"></ImageBrush>
     </Window.Background>
-    <Grid RenderTransformOrigin="0.422,1.261">
+    <Grid RenderTransformOrigin="0.422,1.261" Margin="0,0,0,-6">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="8*"/>
             <ColumnDefinition Width="17*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Naziv takmičenja:" HorizontalAlignment="Left" Margin="8,26,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <TextBox Name="tbNazivTakmicenja" HorizontalAlignment="Left" Margin="57,30,0,0" TextWrapping="NoWrap"  Text="" BorderThickness="0 0 0 1"  VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="1"/>
-        <Label Content="Broj učesnika:" HorizontalAlignment="Left" Margin="8,80,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <ComboBox Text="Peraa" Name="cbBrojUcesnika" HorizontalAlignment="Left" Margin="57,86,0,0" VerticalAlignment="Top" Width="45" Grid.Column="1">
+        <Label Content="Tournament name:" HorizontalAlignment="Left" Margin="0,26,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <TextBox Name="tbTournamentName" HorizontalAlignment="Left" Margin="181,30,0,0" TextWrapping="NoWrap"  Text="" BorderThickness="0 0 0 1"  VerticalAlignment="Top" Width="208" FontSize="18" FontFamily="Arial" Grid.ColumnSpan="2"/>
+        <Label Content="Number of participants:" HorizontalAlignment="Left" Margin="0,71,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <ComboBox Name="cbNumberOfParticipants" HorizontalAlignment="Left" Margin="218,77,0,0" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.874,0.71" Grid.ColumnSpan="2">
             <ComboBoxItem>4</ComboBoxItem>
             <ComboBoxItem>8</ComboBoxItem>
             <ComboBoxItem>16</ComboBoxItem>
             <ComboBoxItem>32</ComboBoxItem>
             <ComboBoxItem>64</ComboBoxItem>
         </ComboBox>
-        <Label Content="Tip takmičenja:" HorizontalAlignment="Left" Margin="8,136,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <RadioButton Name="rbEkipno" Content="Ekipno"  HorizontalAlignment="Left" Margin="57,144,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="14" Grid.Column="1"/>
-        <RadioButton Name="rbIndividualno" Content="Individualno" HorizontalAlignment="Left" Margin="124,144,0,0" VerticalAlignment="Top" FontSize="14" FontFamily="Arial" Grid.Column="1"/>
-        <Label Content="Datum početka:" HorizontalAlignment="Left" Margin="8,186,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <DatePicker SelectedDateFormat="Short" Name="datum" SelectedDate=""  Focusable="False" HorizontalAlignment="Left" Margin="57,189,0,0" VerticalAlignment="Top" Width="148" Grid.Column="1"/>
-        <Button Style="{DynamicResource ButtonStyle}" Name="btnKreirajTakmicenje" Click="btnKreirajTakmicenje_Click" Content="Kreiraj takmičenje" HorizontalAlignment="Left" Margin="56,264,0,0" VerticalAlignment="Top" Height="37" Width="238" RenderTransformOrigin="0.42,-0.089" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Grid.ColumnSpan="2"/>
+        <Label Content="Date of start:" HorizontalAlignment="Left" Margin="0,112,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold" Grid.ColumnSpan="2" RenderTransformOrigin="0.576,-0.843"/>
+        <Label Content="Manage paouyts:" HorizontalAlignment="Left" Margin="1,150,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold" Grid.ColumnSpan="2" RenderTransformOrigin="0.576,-0.843"/>
+        <DatePicker SelectedDateFormat="Short" Name="datum" SelectedDate=""  Focusable="False" HorizontalAlignment="Left" Margin="127,115,0,0" VerticalAlignment="Top" Width="148" Grid.ColumnSpan="2"/>
+        <Button Style="{DynamicResource ButtonStyle}" Name="btnCreateTournament" Click="btnCreateTournament_Click" Content="Create Tournament" HorizontalAlignment="Left" Margin="25,244,0,0" VerticalAlignment="Top" Height="37" Width="238" RenderTransformOrigin="0.42,-0.089" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Grid.ColumnSpan="2"/>
+        <CheckBox IsChecked="False" Name="cbManagePayouts" HorizontalAlignment="Left" Margin="157,158,0,0" VerticalAlignment="Top" Height="23" Width="18" Checked="cbManagePayouts_Checked" Unchecked="cbManagePayouts_Checked" RenderTransformOrigin="-2.833,0.219"/>
+        <TextBox Name="tbEntryFee" HorizontalAlignment="Left" Margin="99,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="103" Grid.ColumnSpan="2"  />
+        <Label Name="lbEntryFee" Content="Entry fee:" HorizontalAlignment="Left" Margin="1,186,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold" RenderTransformOrigin="0.576,-0.843"/>
+        <Label Content="Select Tournament:" HorizontalAlignment="Left" Margin="231,19,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" FontWeight="Bold" Width="186" RenderTransformOrigin="0.689,0.657" Grid.Column="1"/>
+        <ComboBox Name="cbTournaments" ItemTemplate="{StaticResource TournamentTemplate}"  HorizontalAlignment="Left" Margin="241,57,0,0" VerticalAlignment="Top" Width="166" FontSize="18" FontFamily="Arial" Grid.Column="1"/>
+        <Button Style="{DynamicResource ButtonStyle}" Click="btnOpenTournament_Click" Name="btnOpenTournament" Content="Open Tournament" HorizontalAlignment="Left" Margin="135,110,0,0" VerticalAlignment="Top" Height="38" Width="164" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341"  Grid.Column="1"/>
+        <Button Style="{DynamicResource ButtonStyle}" Click="btnDeleteTournament_Click" Name="btnDeleteTournament" Content="Delete Tournament" HorizontalAlignment="Left" Margin="325,110,0,0" VerticalAlignment="Top" Height="37" Width="164" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341"  Grid.Column="1"/>
+        <ListBox Name="lbUsers" HorizontalAlignment="Left" Margin="161,165,0,0" VerticalAlignment="Top" Width="300" Height="110" Grid.Column="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Username}" Margin="5"/>
+                        <TextBlock Text=" - " Margin="5"/>
+                        <TextBlock Text="{Binding Email}" Margin="5"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
-
+        <!-- New Buttons -->
+        <Button Style="{StaticResource ButtonStyle}" Name="btnDeleteUser" Content="Delete User" HorizontalAlignment="Left" Margin="311,285,0,0" VerticalAlignment="Top" Height="37" Width="164" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Click="btnDeleteUser_Click" Grid.Column="1"/>
+        <Button Style="{StaticResource ButtonStyle}" Name="btnEditUser" Content="Edit User" HorizontalAlignment="Left" Margin="135,286,0,0" VerticalAlignment="Top" Height="36" Width="164" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Click="btnEditUser_Click" Grid.Column="1"/>
     </Grid>
 </Window>

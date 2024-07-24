@@ -1,8 +1,10 @@
 ﻿using DiplomskiRad.Classes;
+using DiplomskiRad.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,25 +22,47 @@ namespace DiplomskiRad
     /// </summary>
     public partial class EditParticipant : Window
     {
-        public Takmicar participant { get; set; }
+        public Participant participant { get; set; }
 
-        public EditParticipant(Takmicar u)
+        public EditParticipant(Participant p)
         {
             InitializeComponent();
-            tbJMBG.Text = u.GetJmbg();
-            tbNazivTakmicara.Text = u.GetNazivUcesnika();
-            participant = u;
+            tbEmail.Text = p.GetEmail();
+            tbName.Text = p.GetName();
+            participant = p;
+        }
+        //Validating email input
+        bool IsValidEmail(string email)
+        {
+            string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
+
+            return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);
         }
 
         private void Edit(object sender, RoutedEventArgs e)
         {
-            if(MessageBoxResult.Yes == MessageBox.Show("Are you done?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Question))
+            if(IsValidEmail(tbEmail.Text))
             {
-                participant.SetNazivUcesnika(tbNazivTakmicara.Text);
-                participant.SetJmbg(tbJMBG.Text);
-                this.DialogResult = true;
-                this.Close(); 
+                if (MessageBoxResult.Yes == MessageBox.Show("Are you done?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Question))
+                {
+                    participant.SetName(tbName.Text);
+                    participant.SetEmail(tbEmail.Text);
+                    GlobalConfig.SqlConnection.UpdateParticipant(participant);
+                    this.DialogResult = true;
+                    this.Close();
+                }
+
             }
+            else
+            {
+                MessageBox.Show("Email address is not in valid format", "Notification", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+           
         }
+
+       
+
+        
+        
     }
 }

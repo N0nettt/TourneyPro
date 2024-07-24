@@ -1,20 +1,13 @@
-﻿<Window x:Class="DiplomskiRad.DodajEkipu" 
+﻿<Window x:Class="DiplomskiRad.RegisterWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DiplomskiRad"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
-        Title="Dodaj Ekipu" Height="450" Width="350">
+        Title="Register" Height="307" Width="400">
     <Window.Resources>
-        <DataTemplate x:Key="PrikazTakmicara">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <TextBlock Margin="0,0,50,0" Text="{Binding nazivUcesnika}"></TextBlock>
-                <TextBlock Text="{Binding jmbg}"></TextBlock>
-            </StackPanel>
-        </DataTemplate>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -53,10 +46,8 @@
                                 <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="true">
-
                                 <Setter Property="Cursor" Value="Hand"/>
                                 <Setter Property="Background" TargetName="border" Value="#FFFFE075"/>
-
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
                                 <Setter Property="BorderBrush" TargetName="border" Value="#FFFF0303"/>
@@ -73,17 +64,22 @@
         </Style>
     </Window.Resources>
     <Window.Background>
-        <ImageBrush ImageSource="img/TrophieBackground.jpg"></ImageBrush>
+        <ImageBrush ImageSource="img/starting.jpg"></ImageBrush>
     </Window.Background>
-    <Grid RenderTransformOrigin="0.422,1.261" Margin="0,0,0,-6">
+    <Grid Height="390" VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="8*"/>
-            <ColumnDefinition Width="17*"/>
+            <ColumnDefinition Width="112*"/>
+            <ColumnDefinition Width="31*"/>
+            <ColumnDefinition Width="207*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Naziv ekipe:" HorizontalAlignment="Left" Margin="8,26,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <TextBox Name="tbNazivEkipe" HorizontalAlignment="Left" Margin="57,30,0,0" TextWrapping="NoWrap"  Text="" BorderThickness="0 0 0 1"  VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="1"/>
-        <Button Style="{DynamicResource ButtonStyle}"  Name="btnDodajUcesnika"  Content="Dodaj takmičara" HorizontalAlignment="Left" Margin="104,311,0,0" VerticalAlignment="Top" Height="37" Width="142" RenderTransformOrigin="0.42,-0.089" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Grid.ColumnSpan="2"  Click="DodajTakmičara"/>
-        <Button Style="{DynamicResource ButtonStyle}"  Name="btnKreirajTim"  Content="Kreiraj ekipu" HorizontalAlignment="Left" Margin="30,362,0,0" VerticalAlignment="Top" Height="37" Width="293" RenderTransformOrigin="0.42,-0.089" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Grid.ColumnSpan="2"  Click="KreirajTeam" />
-        <ListBox Name="lbClanoviEkipe"  ItemTemplate="{StaticResource PrikazTakmicara}"  Margin="10,76,2,153" Grid.ColumnSpan="2" Background="#95FFFFFF" FontSize="16" FontWeight="Bold" />
+        <Label Content="Username:" HorizontalAlignment="Left" Margin="0,26,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="3"/>
+        <TextBox Name="UsernameTextBox" HorizontalAlignment="Left" Margin="26,30,0,0" TextWrapping="NoWrap"  Text="" BorderThickness="0 0 0 1"  VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="2"/>
+        <Label Content="Password:" HorizontalAlignment="Left" Margin="0,71,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="3"/>
+        <PasswordBox Name="PasswordBox" HorizontalAlignment="Left" Margin="26,75,0,0" VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="2"/>
+        <Label Content="Confirm Password:" HorizontalAlignment="Left" Margin="0,112,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="3"/>
+        <PasswordBox Name="ConfirmPasswordBox" HorizontalAlignment="Left" Margin="26,116,0,0" VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="2"/>
+        <Label Content="Email:" HorizontalAlignment="Left" Margin="0,153,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="3"/>
+        <TextBox Name="EmailTextBox" HorizontalAlignment="Left" Margin="26,157,0,0" TextWrapping="NoWrap"  Text="" BorderThickness="0 0 0 1"  VerticalAlignment="Top" Width="179" FontSize="18" FontFamily="Arial" Grid.Column="2"/>
+        <Button Style="{DynamicResource ButtonStyle}" Name="RegisterButton" Click="RegisterButton_Click" Content="Register" HorizontalAlignment="Left" Margin="81,210,0,0" VerticalAlignment="Top" Height="37" Width="238" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Grid.ColumnSpan="3"/>
     </Grid>
 </Window>

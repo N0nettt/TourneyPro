@@ -1,4 +1,5 @@
 ﻿using DiplomskiRad.Classes;
+using DiplomskiRad.Database;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,141 +22,156 @@ namespace DiplomskiRad
     /// </summary>
     public partial class MainWindow : Window
     {
-        Takmicenje tournament;
+        Tournament tournament;
+        User user = SessionManager.LoggedInUser;
  
-        public MainWindow(Takmicenje t)
+        public MainWindow(Tournament t)
         {
             
             InitializeComponent();
             tournament = t;
-            this.Title = "Organizacija takmicenja - " + t.GetNazivTakmicenja();
+            this.Title = "Tournament organization - " + t.GetTournamentName();
             MinWidth = 1440;
             MinHeight = 920;
             MaxWidth = 1440;
             MaxHeight = 920;
-            tbNaslov.Text = t.GetNazivTakmicenja().ToString();
-            lbUcesnici.ItemsSource = tournament.GetUcesnici();
-            GenerateTakmicenjeInfoString(t);
-            
+            tbTitle.Text = t.GetTournamentName().ToString();
+            lbParticipats.ItemsSource = tournament.GetParticipants();
+            GetTournamentInfoString(t);
+            if (tournament.GetManagePayouts())
+            {
+                lbPrizes.Visibility = Visibility.Visible;
+                btnManagePrizes.Visibility = Visibility.Visible;
+            }
+            if(tournament.bracket.listOfRounds.Count > 0)
+            {
+                BracketCreatedButtons();
+            }
+            if(user.Role.RoleName == "Korisnik")
+            {
+                HideAllbuttons();
+            }
+            lbPrizes.ItemsSource = tournament.prizes;
+            BracketTreeView.ItemsSource = tournament.bracket.listOfRounds;
         }
 
         #region Methods
        
         //Generate tournament info string which will be printed in the textblock
-        public void GenerateTakmicenjeInfoString(Takmicenje t)
+        public void GetTournamentInfoString(Tournament t)
         {
             String tourInfo = "";
 
-            tourInfo += "Datum početka: " + t.GetDate().ToShortDateString() + "\n\n"
-                     + "Tip takmičenja: " + t.GetTIpTakmicenja() + "\n\n" +
-                       "Maksimalan broj ekipa: " + t.GetBrojUcesnika() + "\n\n";
+            tourInfo += "Date of beginning: " + t.GetDate().ToShortDateString() + "\n\n"
+                     + "Max number of participants: " + t.GetNumberOfParticipants() + "\n\n";
 
             tbInfo.Text = tourInfo;
         }
 
-       
-        //Check type of the tournament and call specific method for adding player/team
-        private void DodajUcesnika(object sender, RoutedEventArgs e)
-        {
 
-            if (tournament.GetTIpTakmicenja() == "Individualno")
-                DodajTakmicara();   
-            else
-                DodajEkipu();
-            countTextBlock.Text = $"Number of participants:{tournament.GetNumOfRegisteredParticipants()}"; 
-        }
         //Adding player to the tournament
-        public void DodajTakmicara()
-        {       
-            DodajTakmicara dodaj = new DodajTakmicara(tournament.GetUcesnici());
-            if (dodaj.ShowDialog() == true)
-            {
-                Ucesnik ucesnik = new Takmicar(dodaj.GetNazivTakmicara(), dodaj.GetJMBG());
-                if(tournament.DodajUcesnika(ucesnik) == false)
-                {
-                    MessageBox.Show("Kapacitet takmičenja je popunjen!", "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                }
-                
-            }
-        }
-        //Adding team for to the tournament
-        public void DodajEkipu()
+        private void AddParticipant(object sender, RoutedEventArgs e)
         {
-            DodajEkipu dodaj = new DodajEkipu(tournament.GetUcesnici());
-            if(dodaj.ShowDialog() == true)
+
+            AddParticipant add = new AddParticipant(tournament.GetParticipants());
+            if (add.ShowDialog() == true)
             {
-                if(tournament.DodajUcesnika(dodaj.ekipa) == false)
+                Participant p = add.participant;
+                if (tournament.AddParticipant(p) == false)
                 {
-                    MessageBox.Show("Kapacitet takmičenja je popunjen!", "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    MessageBox.Show("Capacity of the tournamnet is full!", "Notification", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
-            }
-          
+                countTextBlock.Text = $"Number of participants:{tournament.GetNumOfRegisteredParticipants()}";
+
+            }     
         }
+        
+       
         //Calling function to construct bracket and send message to the user 
-        private void KreirajZreb(object sender, RoutedEventArgs e)
+        private void CreateBracket(object sender, RoutedEventArgs e)
         {
-            if (tournament.KonstruisiZreb())
+            if (tournament.ConstructBracket())
             {
-                MessageBox.Show("Uspešno kreiran žreb!", "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                btnCreateBracket.Visibility = Visibility.Collapsed;
-                btnDeleteParticipant.Visibility = Visibility.Collapsed;
-                btnAddParticipant.Visibility = Visibility.Collapsed;
-                btnEditParticipant.Visibility = Visibility.Collapsed;  
-                btnResetBrascket.Visibility = Visibility.Visible;
-                BracketTreeView.ItemsSource = tournament.zreb.listaKola;
+                MessageBox.Show("Successfully created bracket!", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
+                BracketCreatedButtons();
+                BracketTreeView.ItemsSource = tournament.bracket.listOfRounds;
             }
             else
             {
-                MessageBox.Show("Broj učesnika ne ispunjava uslove takmičenja!", "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Stop);
+                MessageBox.Show("The number of participants does not meet the competition requirements", "notification", MessageBoxButton.OK, MessageBoxImage.Stop);
             }
-
+        }
+        // Hide/Show different buttons if bracket is created
+        private void BracketCreatedButtons()
+        {
+            btnCreateBracket.Visibility = Visibility.Collapsed;
+            btnDeleteParticipant.Visibility = Visibility.Collapsed;
+            btnAddParticipant.Visibility = Visibility.Collapsed;
+            //btnEditParticipant.Visibility = Visibility.Collapsed;
+            btnResetBrascket.Visibility = Visibility.Visible;
+        }
+        // Hide all buttons if normal user log in
+        private void HideAllbuttons()
+        {
+            btnCreateBracket.Visibility = Visibility.Collapsed;
+            btnDeleteParticipant.Visibility = Visibility.Collapsed;
+            btnAddParticipant.Visibility = Visibility.Collapsed;
+            btnEditParticipant.Visibility = Visibility.Collapsed;
+            btnManagePrizes.Visibility = Visibility.Collapsed;
+            btnResetBrascket.Visibility = Visibility.Collapsed;
+            
         }
 
         private void WinnerSelected(object sender, RoutedEventArgs e)
         {
-
             RadioButton rb = (RadioButton)sender;
+            if (user.Role.RoleName == "Korisnik")
+            {
+                MessageBox.Show("User can not select the winner!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                rb.IsChecked = false;
+                return;
+            }
+
+            
             int matchID = int.Parse(rb.GroupName);
-            Ucesnik u = (Ucesnik)rb.Tag;
+            Participant p = (Participant)rb.Tag;
             int nextGameID = 0;
 
             //Looking for a match with mecID as matchID and adding the winner
-            for (int i = 0; i < tournament.zreb.listaKola.Count(); i++)
+            for (int i = 0; i < tournament.bracket.listOfRounds.Count(); i++)
             { 
-                for (int j = 0; j < tournament.zreb.listaKola[i].mecevi.Count(); j++)
+                for (int j = 0; j < tournament.bracket.listOfRounds[i].matches.Count(); j++)
                 {
-                    if (tournament.zreb.listaKola[i].mecevi[j].mecID == matchID)
+                    if (tournament.bracket.listOfRounds[i].matches[j].MatchID == matchID)
                     {
-                        tournament.zreb.listaKola[i].mecevi[j].unesiPobednika(u);
-                        nextGameID = tournament.zreb.listaKola[i].mecevi[j].nextGame;
+                        tournament.bracket.listOfRounds[i].matches[j].SetWinner(p);
+                        nextGameID = tournament.bracket.listOfRounds[i].matches[j].NextMatch;
                         break;
                     }
                 }
             }
-
             //Looking for a next match of the winner and updating the participants
-            for (int i = 0; i < tournament.zreb.listaKola.Count(); i++)
+            for (int i = 0; i < tournament.bracket.listOfRounds.Count(); i++)
             {
-                for (int j = 0; j < tournament.zreb.listaKola[i].mecevi.Count(); j++)
+                for (int j = 0; j < tournament.bracket.listOfRounds[i].matches.Count(); j++)
                 {
-                    if (tournament.zreb.listaKola[i].mecevi[j].mecID == nextGameID)
+                    if (tournament.bracket.listOfRounds[i].matches[j].MatchID == nextGameID)
                     {
-                        tournament.zreb.listaKola[i].mecevi[j].updateUcesnik();
+                        tournament.bracket.listOfRounds[i].matches[j].updateUcesnik();
                         break;
                     }
                 }
             }
         }
-
         //Removing selected participant from the tournament
         private void RemoveParticipant(object sender, RoutedEventArgs e)
         {
-            if (lbUcesnici.SelectedIndex != -1)
+            if (lbParticipats.SelectedIndex != -1)
             {
-                Takmicar t = (Takmicar)lbUcesnici.SelectedItem;
-                if (MessageBox.Show("Are you sure you want to delete user:\n" + "Name: " + t.GetNazivUcesnika() + "\n" + "JMBG: " + t.GetJmbg(), "Requesting confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                Participant p = (Participant)lbParticipats.SelectedItem;
+                if (MessageBox.Show("Are you sure you want to remove Participant:\n" + "Name: " + p.GetName() + "\n" + "Email: " + p.GetEmail(), "Requesting confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    tournament.RemoveParticipant((Ucesnik)lbUcesnici.SelectedItem);
+                    tournament.RemoveParticipant((Participant)lbParticipats.SelectedItem);
                     MessageBox.Show("The participant has been successfully deleted", "Participant deleted", MessageBoxButton.OK, MessageBoxImage.Information);
                     countTextBlock.Text = $"Number of participants:{tournament.GetNumOfRegisteredParticipants()}";
                 }
@@ -166,34 +182,48 @@ namespace DiplomskiRad
         }
         private void ResetBracket(object sender, RoutedEventArgs e)
         {
-            tournament.ResetBracket();
-            btnResetBrascket.Visibility = Visibility.Collapsed; 
-            btnCreateBracket.Visibility = Visibility.Visible;
-            btnDeleteParticipant.Visibility = Visibility.Visible;
-            btnAddParticipant.Visibility = Visibility.Visible;
-            btnEditParticipant.Visibility = Visibility.Visible;
+            var result = MessageBox.Show("Are you sure?", "Do you want to reset the bracket?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if(result == MessageBoxResult.Yes)
+            {
+                tournament.ResetBracket();
+                btnResetBrascket.Visibility = Visibility.Collapsed;
+                btnCreateBracket.Visibility = Visibility.Visible;
+                btnDeleteParticipant.Visibility = Visibility.Visible;
+                btnAddParticipant.Visibility = Visibility.Visible;
+                btnEditParticipant.Visibility = Visibility.Visible;
+            }
         }
         private void EditParticipant(object sender, RoutedEventArgs e)
         {
-            if(lbUcesnici.SelectedIndex != -1)
+            if(lbParticipats.SelectedIndex != -1)
             {
-                Takmicar participant = (Takmicar)lbUcesnici.SelectedItem;
-                int selectedIndex = lbUcesnici.SelectedIndex;
+                Participant participant = (Participant)lbParticipats.SelectedItem;
+                int selectedIndex = lbParticipats.SelectedIndex;
                 EditParticipant editWindow = new EditParticipant(participant);
                 if (editWindow.ShowDialog() == true)
                 {
-                    Takmicar editedParticipant = editWindow.participant;
+                    Participant editedParticipant = editWindow.participant;
                     tournament.SetSpecificParticipant(selectedIndex, editedParticipant);
-                    lbUcesnici.Items.Refresh();
+                    GlobalConfig.SqlConnection.UpdateParticipant(editedParticipant);
+                    lbParticipats.Items.Refresh();
+                    BracketTreeView.Items.Refresh();
                 }
             }
             else
             {
-                MessageBox.Show("You have not selected any participant", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("You have not selected a participant!", "Notification", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-
+        private void ManagePrizes(object sender, RoutedEventArgs e)
+        {
+            ManagePrizes managePrizes = new ManagePrizes(tournament);
+            if (managePrizes.ShowDialog() == true)
+            {
+                tournament.prizes = managePrizes.prizes;
+                lbPrizes.ItemsSource = tournament.prizes;
+            }
+        }
         #endregion
 
        

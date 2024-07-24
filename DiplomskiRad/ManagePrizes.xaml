@@ -1,0 +1,112 @@
+﻿<Window x:Class="DiplomskiRad.ManagePrizes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DiplomskiRad.Classes"
+        WindowStartupLocation="CenterScreen"   
+        mc:Ignorable="d"
+        ResizeMode="CanMinimize"
+        Title="ManagePrizes" Height="500" Width="800">
+    <Window.Background>
+        <ImageBrush ImageSource="img/prizes.jpg"></ImageBrush>
+    </Window.Background>
+    <Window.Resources>
+        <DataTemplate x:Key="PrizesDisplay">
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <TextBlock FontWeight="Black" Text="{Binding placeNumber, StringFormat={}{0}.}"></TextBlock>
+                <TextBlock Text="       "></TextBlock>
+                <TextBlock FontWeight="Black" Text="{Binding priceAmount}"></TextBlock>
+                <TextBlock Text="       "></TextBlock>
+                <TextBlock FontWeight="Black" Text="{Binding prizePercentage, StringFormat={}{0}%}"></TextBlock>
+            </StackPanel>
+        </DataTemplate>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" CornerRadius="16" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter Property="Background" TargetName="border" Value="#FFFFE075"/>
+
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FFFF0303"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <ListBox Name="lbPrizes" ItemTemplate="{StaticResource PrizesDisplay}" Margin="66,28,487,143" Background="#95FFFFFF" />
+        <Grid Name="PrizeGrid" Margin="400,0,78,143" Width="Auto"  Background="#95FFFFFF" VerticalAlignment="Bottom" Height="179">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="53*"/>
+                <ColumnDefinition Width="169*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Prize structure:" FontSize="18" FontWeight="Bold" HorizontalAlignment="Left"  VerticalAlignment="Top" Background="#00000000" Foreground="Black" Margin="23,14,0,0" Grid.ColumnSpan="3" />
+            <RadioButton Name="rbPercentage" Content="Percentage" FontWeight="Bold" HorizontalAlignment="Left"  VerticalAlignment="Top" Checked="PrizeStructureChanged" Margin="13,34,0,0" Grid.Column="2"/>
+            <RadioButton Name="rbAmount" IsChecked="True" Content="Amount" FontWeight="Bold" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="13,14,0,0" Checked="PrizeStructureChanged" Grid.Column="2"/>
+            <Label Content="Amount:" FontSize="18" FontWeight="Bold"  VerticalAlignment="Top" Background="#00000000" Foreground="Black" Margin="23,49,1,0" Grid.ColumnSpan="2" />
+            <TextBox Name="tbPrizeAmount" HorizontalAlignment="Left" Margin="7,53,0,0" TextWrapping="Wrap" PreviewTextInput="PreviewTextInput"  VerticalAlignment="Top" Width="149" Height="26" Grid.ColumnSpan="2" Grid.Column="1" />
+            <Label Content="Percentage:" FontSize="18" FontWeight="Bold" HorizontalAlignment="Left"  VerticalAlignment="Top" Background="#00000000" Foreground="Black" Margin="23,117,0,0" Grid.ColumnSpan="2" />
+            <TextBox IsEnabled="False" MaxLength="5" MaxLines="1" x:Name="tbPercentage" HorizontalAlignment="Left" Margin="39,121,0,0" PreviewTextInput="PreviewTextInput" TextWrapping="Wrap"  VerticalAlignment="Top" Width="44" Height="26" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2" Grid.Column="1"/>
+            <Label Content="Place number::" FontSize="18" FontWeight="Bold"  VerticalAlignment="Top" Background="#00000000" Foreground="Black" Margin="23,83,1,0" Grid.ColumnSpan="2" />
+            <TextBox x:Name="tbPlaceNumber" HorizontalAlignment="Left" Margin="10,87,0,0" TextWrapping="Wrap" PreviewTextInput="PreviewTextInput"  VerticalAlignment="Top" Width="50" Height="26" Grid.Column="2" />
+        </Grid>
+        <Grid  Width="Auto" Height="98" VerticalAlignment="Top" Background="#95FFFFFF" Margin="400,28,78,0">
+            <Label Content="Prize distribution:" FontWeight="Bold" FontSize="18"  HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" Width="166"/>
+            <RadioButton Name="rbAutomatic" Content="Automatic" FontWeight="Bold" HorizontalAlignment="Left"  VerticalAlignment="Top" Checked="AutomaticCheckedChange"  Margin="181,32,0,0"/>
+            <RadioButton Name="rbCustom"  IsChecked="True" Content="Custom" FontWeight="Bold" HorizontalAlignment="Left"   VerticalAlignment="Top" Margin="181,12,0,0" Checked="CustomCheckedChange"/>
+            <Label Content="Places paid:" FontWeight="Bold" FontSize="18" Margin="15,44,150,0" VerticalAlignment="Top"/>
+            <TextBox IsEnabled="False" MaxLength="5" MaxLines="1" Name="tbPlacesPaid" HorizontalAlignment="Left" Margin="127,49,0,0" TextWrapping="Wrap"  TextChanged="tbPlacesPaid_TextChanged" PreviewTextInput="PreviewTextInput" VerticalAlignment="Top" Width="52" Height="26"  RenderTransformOrigin="0.5,0.5" />
+        </Grid>
+        <Button Style="{StaticResource ButtonStyle}" Name="btnCreatePrize" Content="Create prize" HorizontalAlignment="Left" Margin="497,346,0,0" VerticalAlignment="Top"  Height="44" Width="132"  FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Click="btnCreatePrize_Click"/>
+        <Button Style="{StaticResource ButtonStyle}" x:Name="btnRemovePrize" Content="Remove prize" HorizontalAlignment="Left" Margin="66,346,0,0" VerticalAlignment="Top"  Height="44" Width="95"  FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Click="btnRemovePrize_Click"/>
+        <Button Style="{StaticResource ButtonStyle}" x:Name="btnClearPrizes" Content="Clear all prizes" HorizontalAlignment="Left" Margin="201,346,0,0" VerticalAlignment="Top"  Height="44" Width="94"  FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Click="btnClearPrizes_Click"/>
+        <Button Style="{StaticResource ButtonStyle}" x:Name="btnSavePrizes" Content="Save prizes" Click="btnSavePrizes_Click" HorizontalAlignment="Left" Margin="309,403,0,0" VerticalAlignment="Top"  Height="44" Width="122"  FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" />
+
+    </Grid>
+</Window>
