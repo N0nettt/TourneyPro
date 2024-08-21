@@ -176,7 +176,7 @@ TourneyPro is a comprehensive tournament management application designed to stre
 
 **System Requirements:**
 
-* **CSharp**: `version x.y.z`
+* **C#**: 10.0
 
 ### ⚙️ Installation
 
@@ -266,12 +266,6 @@ Contributions are welcome! Here are several ways you can contribute:
    </a>
 </p>
 </details>
-
----
-
-## 🎗 License
-
-This project is protected under the [SELECT-A-LICENSE](https://choosealicense.com/licenses) License. For more details, refer to the [LICENSE](https://choosealicense.com/licenses/) file.
 
 ---
 
