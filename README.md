@@ -1,7 +1,4 @@
 <p align="center">
-  <img src="TourneyPro.png" width="60%" alt="project-logo">
-</p>
-<p align="center">
     <h1 align="center">TOURNEYPRO</h1>
 </p>
 <p align="center">
