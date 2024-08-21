@@ -216,14 +216,6 @@ TourneyPro is a comprehensive tournament management application designed to stre
 
 ---
 
-## 🛠 Project Roadmap
-
-- [X] `► INSERT-TASK-1`
-- [ ] `► INSERT-TASK-2`
-- [ ] `► ...`
-
----
-
 ## 🤝 Contributing
 
 Contributions are welcome! Here are several ways you can contribute:
