@@ -47,7 +47,6 @@ namespace DiplomskiRad
             loaded = true;
 
         }
-
         private void PrizeStructureChanged(object sender, RoutedEventArgs e)
         {
             if (loaded)
@@ -66,7 +65,6 @@ namespace DiplomskiRad
                 }
             }
         }
-
         private void AutomaticCheckedChange(object sender, RoutedEventArgs e)
         {
             PrizeGrid.IsEnabled = false;
@@ -154,6 +152,7 @@ namespace DiplomskiRad
                     return;
                 }
             }
+
             if (rbAmount.IsChecked == true)
             {
                 if(!String.IsNullOrEmpty(tbPrizeAmount.Text) && !String.IsNullOrEmpty(tbPlaceNumber.Text))
@@ -165,6 +164,11 @@ namespace DiplomskiRad
                     tbPrizeAmount.Clear();
                     tbPlaceNumber.Clear();
                     lbPrizes.ItemsSource = prizes;
+                }
+                else
+                {
+                    MessageBox.Show("Amount and place number fields can't be empty", "Erorr", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
             }
             else if(rbPercentage.IsChecked == true)
@@ -178,6 +182,11 @@ namespace DiplomskiRad
                     tbPrizeAmount.Clear();
                     tbPlaceNumber.Clear();
                     lbPrizes.ItemsSource = prizes;
+                }
+                else
+                {
+                    MessageBox.Show("Percentage and place number fields can't be empty", "Erorr", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
             }
         }

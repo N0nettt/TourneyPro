@@ -42,6 +42,7 @@ namespace DiplomskiRad
             {
                 lbPrizes.Visibility = Visibility.Visible;
                 btnManagePrizes.Visibility = Visibility.Visible;
+                labelPrizes.Visibility = Visibility.Visible;
             }
             if(tournament.bracket.listOfRounds.Count > 0)
             {

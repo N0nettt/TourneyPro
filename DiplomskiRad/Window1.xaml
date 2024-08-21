@@ -103,7 +103,7 @@
         <ComboBox Name="cbTournaments" ItemTemplate="{StaticResource TournamentTemplate}"  HorizontalAlignment="Left" Margin="241,57,0,0" VerticalAlignment="Top" Width="166" FontSize="18" FontFamily="Arial" Grid.Column="1"/>
         <Button Style="{DynamicResource ButtonStyle}" Click="btnOpenTournament_Click" Name="btnOpenTournament" Content="Open Tournament" HorizontalAlignment="Left" Margin="135,110,0,0" VerticalAlignment="Top" Height="38" Width="164" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341"  Grid.Column="1"/>
         <Button Style="{DynamicResource ButtonStyle}" Click="btnDeleteTournament_Click" Name="btnDeleteTournament" Content="Delete Tournament" HorizontalAlignment="Left" Margin="325,110,0,0" VerticalAlignment="Top" Height="37" Width="164" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341"  Grid.Column="1"/>
-        <ListBox Name="lbUsers" HorizontalAlignment="Left" Margin="161,165,0,0" VerticalAlignment="Top" Width="300" Height="110" Grid.Column="1">
+        <ListBox Name="lbUsers" Visibility="Collapsed" HorizontalAlignment="Left" Margin="161,165,0,0" VerticalAlignment="Top" Width="300" Height="110" Grid.Column="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -114,9 +114,8 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
         <!-- New Buttons -->
-        <Button Style="{StaticResource ButtonStyle}" Name="btnDeleteUser" Content="Delete User" HorizontalAlignment="Left" Margin="311,285,0,0" VerticalAlignment="Top" Height="37" Width="164" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Click="btnDeleteUser_Click" Grid.Column="1"/>
-        <Button Style="{StaticResource ButtonStyle}" Name="btnEditUser" Content="Edit User" HorizontalAlignment="Left" Margin="135,286,0,0" VerticalAlignment="Top" Height="36" Width="164" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Click="btnEditUser_Click" Grid.Column="1"/>
+        <Button Style="{StaticResource ButtonStyle}" Visibility="Collapsed" Name="btnDeleteUser" Content="Delete User" HorizontalAlignment="Left" Margin="311,285,0,0" VerticalAlignment="Top" Height="37" Width="164" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Click="btnDeleteUser_Click" Grid.Column="1"/>
+        <Button Style="{StaticResource ButtonStyle}" Visibility="Collapsed" Name="btnEditUser" Content="Edit User" HorizontalAlignment="Left" Margin="135,286,0,0" VerticalAlignment="Top" Height="36" Width="164" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Click="btnEditUser_Click" Grid.Column="1"/>
     </Grid>
 </Window>

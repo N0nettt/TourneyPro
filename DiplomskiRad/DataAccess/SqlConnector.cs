@@ -329,8 +329,17 @@ namespace DiplomskiRad.Database
                             string organizer = result.Organizer;
                             command = "SELECT * from Users WHERE Username = @Organizer";
                             var param = new { Organizer = organizer, Winner = result.Winner };
-                            var res = connection.Query<User>(command, param);
-                            User org = res.First();
+                            var res = connection.Query(command, param);
+                            var u = res.First();
+                            string email = u.Email;
+                            int roleID = u.RoleID;
+                            string username = u.Username;
+                            string password = u.Password;
+                            command = "SELECT * From Roles where RoleID = @RoleID";
+                            var parameterss = new { RoleID = roleID };
+                            var r = connection.Query<Role>(command, parameterss);
+                            Role role = r.First();
+                            User org = new User(username, password, email, role);
                             var win = connection.Query<Participant>("SELECT p.ParticipantID, p.Name, p.Email FROM Participants p INNER JOIN Tournaments t ON t.Winner =p.ParticipantID WHERE t.Winner = @Winner", param);
                             // Create Tournament object and add to ObservableCollection
                             Tournament t = new Tournament(tournamentID, name, date, numberOfParticipants, payouts, fee, org);
@@ -792,6 +801,7 @@ namespace DiplomskiRad.Database
             }
 
         }
+        // Retreiving roles from database
         public ObservableCollection<Role> SelectRoles()
         {
             ObservableCollection<Role> roles = new ObservableCollection<Role>();

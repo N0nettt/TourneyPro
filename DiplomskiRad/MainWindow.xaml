@@ -91,7 +91,7 @@
         </DataTemplate>
     </Window.Resources>
     <Grid>
-        <TextBlock Name="tbTitle" HorizontalAlignment="Left" Margin="468,53,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="42" Width="458" Foreground="#FFFFE258" FontSize="24" FontWeight="Bold" TextAlignment="Center"/>
+        <TextBlock Name="tbTitle" HorizontalAlignment="Left" Margin="468,29,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="42" Width="458" Foreground="#FFFFE258" FontSize="24" FontWeight="Bold" TextAlignment="Center"/>
         <TextBlock Name="tbInfo" HorizontalAlignment="Left" Margin="59,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="123" FontSize="18" Foreground="Black" Background="#95FFFFFF" FontWeight="Bold" Width="390"/>
         <TextBlock x:Name="countTextBlock" Text="" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="59,637,0,0"/>
         <ListBox Name="lbParticipats" ItemTemplate="{StaticResource ParticipantsDisplay}" Margin="59,348,973,271" Background="#95FFFFFF" FontSize="16" FontWeight="Bold"/>
@@ -127,5 +127,9 @@
         <Button Style="{StaticResource ButtonStyle}" x:Name="btnEditParticipant" Content="Edit participant" HorizontalAlignment="Left" Margin="190,673,0,0" VerticalAlignment="Top"  Height="55" Width="128" Click="EditParticipant" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341"/>
         <ListBox x:Name="lbPrizes"  Visibility="Collapsed" ItemTemplate="{StaticResource PrizesDisplay}" Margin="949,171,83,317" Background="#95FFFFFF" FontSize="16" FontWeight="Bold"/>
         <Button Style="{StaticResource ButtonStyle}" Visibility="Collapsed" x:Name="btnManagePrizes" Content="Manage prizes" HorizontalAlignment="Left" Margin="1089,618,0,0" VerticalAlignment="Top"  Height="55" Width="128" Click="ManagePrizes"  FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341"/>
+        <Label Content="Participants:"  Foreground="#FFFFE258" FontSize="24" FontWeight="Bold"  HorizontalAlignment="Left" Margin="59,301,0,0" VerticalAlignment="Top" Width="204"/>
+        <Label Content="Tournament info:"  Foreground="#FFFFE258" FontSize="24" FontWeight="Bold"  HorizontalAlignment="Left" Margin="59,74,0,0" VerticalAlignment="Top" Width="204"/>
+        <Label Name="labelPrizes" Content="Prizes:" Visibility="Collapsed"  Foreground="#FFFFE258" FontSize="24" FontWeight="Bold"  HorizontalAlignment="Left" Margin="949,114,0,0" VerticalAlignment="Top" Width="204"/>
+        <Label Content="Bracket:"  Foreground="#FFFFE258" FontSize="24" FontWeight="Bold"  HorizontalAlignment="Left" Margin="543,71,0,0" VerticalAlignment="Top" Width="204"/>
     </Grid>
 </Window>
