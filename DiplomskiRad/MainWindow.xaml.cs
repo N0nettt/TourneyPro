@@ -37,6 +37,7 @@ namespace DiplomskiRad
             MaxHeight = 920;
             tbTitle.Text = t.GetTournamentName().ToString();
             lbParticipats.ItemsSource = tournament.GetParticipants();
+            tournament.WinnerSelected += OnWinnerAnnounced;
             GetTournamentInfoString(t);
             if (tournament.GetManagePayouts())
             {
@@ -57,17 +58,26 @@ namespace DiplomskiRad
         }
 
         #region Methods
-       
+        private void OnWinnerAnnounced()
+        {
+            // Call the method to update tbInfo.Text with the tournament info
+            GetTournamentInfoString(tournament);
+        }
+
         //Generate tournament info string which will be printed in the textblock
         public void GetTournamentInfoString(Tournament t)
         {
             String tourInfo = "";
+            String winner = "";
+            if (t.winner != null) { winner = t.winner.GetName(); }
 
             tourInfo += "Date of beginning: " + t.GetDate().ToShortDateString() + "\n\n"
-                     + "Max number of participants: " + t.GetNumberOfParticipants() + "\n\n";
+                     + "Max number of participants: " + t.GetNumberOfParticipants() + "\n\n"
+                     + "Winner: " + winner;
 
             tbInfo.Text = tourInfo;
         }
+
 
 
         //Adding player to the tournament
@@ -108,7 +118,7 @@ namespace DiplomskiRad
             btnCreateBracket.Visibility = Visibility.Collapsed;
             btnDeleteParticipant.Visibility = Visibility.Collapsed;
             btnAddParticipant.Visibility = Visibility.Collapsed;
-            //btnEditParticipant.Visibility = Visibility.Collapsed;
+            btnEditParticipant.Visibility = Visibility.Collapsed;
             btnResetBrascket.Visibility = Visibility.Visible;
         }
         // Hide all buttons if normal user log in
@@ -225,8 +235,30 @@ namespace DiplomskiRad
                 lbPrizes.ItemsSource = tournament.prizes;
             }
         }
+
         #endregion
 
-       
+        private void btnEditTournament_Click(object sender, RoutedEventArgs e)
+        {
+            EditTournament editWindow = new EditTournament(tournament);
+            if(editWindow.ShowDialog() == true)
+            {
+                tournament = editWindow.tournament;
+                tbTitle.Text = tournament.tournamentName;
+                GetTournamentInfoString(tournament);
+                if (tournament.managePayouts == false)
+                {
+                    btnManagePrizes.Visibility = Visibility.Collapsed;
+                    lbPrizes.Visibility = Visibility.Collapsed;
+                    labelPrizes.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    btnManagePrizes.Visibility = Visibility.Visible;
+                    lbPrizes.Visibility = Visibility.Visible;
+                }
+                GlobalConfig.SqlConnection.UpdateTournament(tournament);
+            }
+        }
     }
 }

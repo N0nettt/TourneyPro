@@ -40,6 +40,7 @@ namespace DiplomskiRad.Database
         void UpdateUser(User user);
         void DeleteUser(User user);
         ObservableCollection<Role> SelectRoles();
+        void UpdateTournament(Tournament t);
 
     }
 }

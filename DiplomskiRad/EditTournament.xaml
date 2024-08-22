@@ -1,0 +1,103 @@
+﻿<Window x:Class="DiplomskiRad.EditTournament" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DiplomskiRad"
+        mc:Ignorable="d"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        Title="Edit Participant" Height="350
+        " Width="350">
+    <Window.Resources>
+        <DataTemplate x:Key="RolesTemplate">
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <TextBlock Text="{Binding RoleName}" />
+            </StackPanel>
+        </DataTemplate>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" CornerRadius="16" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter Property="Background" TargetName="border" Value="#FFFFE075"/>
+
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FFFF0303"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="img/starting.jpg"></ImageBrush>
+    </Window.Background>
+    <Grid RenderTransformOrigin="0.422,1.261" Height="321" VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="17*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Tournament name:" HorizontalAlignment="Left" Margin="0,26,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <TextBox Name="tbTournamentName" HorizontalAlignment="Left" Margin="69,30,0,0" TextWrapping="NoWrap"  Text="" BorderThickness="0 0 0 1"  VerticalAlignment="Top" Width="159" FontSize="18" FontFamily="Arial" Grid.Column="1"/>
+        <Label Content="Number of participants:" HorizontalAlignment="Left" Margin="0,71,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <ComboBox Name="cbNumberOfParticipants" HorizontalAlignment="Left" Margin="218,77,0,0" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.874,0.71" Grid.ColumnSpan="2">
+            <ComboBoxItem>4</ComboBoxItem>
+            <ComboBoxItem>8</ComboBoxItem>
+            <ComboBoxItem>16</ComboBoxItem>
+            <ComboBoxItem>32</ComboBoxItem>
+            <ComboBoxItem>64</ComboBoxItem>
+        </ComboBox>
+        <Label Content="Date of start:" HorizontalAlignment="Left" Margin="0,112,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold" Grid.ColumnSpan="2" RenderTransformOrigin="0.576,-0.843"/>
+        <Label Content="Manage paouyts:" HorizontalAlignment="Left" Margin="1,150,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold" Grid.ColumnSpan="2" RenderTransformOrigin="0.576,-0.843"/>
+        <DatePicker SelectedDateFormat="Short" Name="datum" SelectedDate=""  Focusable="False" HorizontalAlignment="Left" Margin="127,115,0,0" VerticalAlignment="Top" Width="148" Grid.ColumnSpan="2"/>
+        <Button Style="{DynamicResource ButtonStyle}" Name="btnEditTournament" Click="btnEditTournament_Click" Content="Confirm" HorizontalAlignment="Left" Margin="18,231,0,0" VerticalAlignment="Top" Height="37" Width="140" RenderTransformOrigin="0.42,-0.089" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Grid.ColumnSpan="2"/>
+        <Label Name="lbEntryFee" Content="Entry fee:" HorizontalAlignment="Left" Margin="1,186,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Arial" Foreground="Black" FontWeight="Bold" RenderTransformOrigin="0.576,-0.843"/>
+        <CheckBox IsChecked="False" Name="cbManagePayouts" HorizontalAlignment="Left" Margin="54,160,0,0" VerticalAlignment="Top" Height="24" Width="18" Checked="cbManagePayouts_Checked" Unchecked="cbManagePayouts_Checked" RenderTransformOrigin="-2.833,0.219" Grid.Column="1"/>
+        <TextBox Name="tbEntryFee" HorizontalAlignment="Left" Margin="99,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="103" Grid.ColumnSpan="2"  />
+        <Button Style="{DynamicResource ButtonStyle}" x:Name="btnCancel" Click="btnCancel_Click" Content="Cancel" HorizontalAlignment="Left" Margin="63,231,0,0" VerticalAlignment="Top" Height="37" Width="157" RenderTransformOrigin="0.42,-0.089" FontSize="14" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" Grid.Column="1"/>
+
+    </Grid>
+</Window>

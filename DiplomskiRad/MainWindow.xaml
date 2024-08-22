@@ -131,5 +131,6 @@
         <Label Content="Tournament info:"  Foreground="#FFFFE258" FontSize="24" FontWeight="Bold"  HorizontalAlignment="Left" Margin="59,74,0,0" VerticalAlignment="Top" Width="204"/>
         <Label Name="labelPrizes" Content="Prizes:" Visibility="Collapsed"  Foreground="#FFFFE258" FontSize="24" FontWeight="Bold"  HorizontalAlignment="Left" Margin="949,114,0,0" VerticalAlignment="Top" Width="204"/>
         <Label Content="Bracket:"  Foreground="#FFFFE258" FontSize="24" FontWeight="Bold"  HorizontalAlignment="Left" Margin="543,71,0,0" VerticalAlignment="Top" Width="204"/>
+        <Button Style="{StaticResource ButtonStyle}" x:Name="btnEditTournament" Content="Edit tournament" HorizontalAlignment="Left" Margin="151,258,0,0" VerticalAlignment="Top"  Height="43" Width="206" Click="btnEditTournament_Click" FontWeight="Bold" FontFamily="Arial" BorderBrush="#FFF9C922" Foreground="Black" Background="#FFFFC341" RenderTransformOrigin="-1.73,-3.417"/>
     </Grid>
 </Window>

@@ -826,6 +826,27 @@ namespace DiplomskiRad.Database
             return roles;
         }
 
+        public void UpdateTournament(Tournament t)
+        {
+            try
+            {
+                using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString("TourneyProApp")))
+                {
+                    int payouts;
+                    if (t.managePayouts ) { payouts = 1; } else { payouts = 0; }
+                    string command = "UPDATE Tournaments SET Name = @Name, NumberOfParticipant = @NumOfPart, Payouts = @Payouts, Fee = @Fee WHERE TournamentID = @Id";
+                    var parameters = new { Name = t.tournamentName, NumOfPart = t.numberOfParticipants, Payouts = payouts, Fee = t.entryFee, Id = t.TournamentID };
+
+                    connection.Execute(command, parameters);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Something went wrong, please try again.");
+
+            }
+        }
+
     }
 }
 

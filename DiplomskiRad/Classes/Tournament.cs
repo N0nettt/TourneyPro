@@ -22,7 +22,7 @@ namespace DiplomskiRad.Classes
         public Bracket bracket { get; set; }
         public bool managePayouts { get; set; }
         public ObservableCollection<Prize> prizes = new ObservableCollection<Prize>();
-        public float entryFee { get; private set; }
+        public float entryFee { get; set; }
         
         public User organizer { get; set; }
         // Constructor for creating the new tournament which is not in database
@@ -52,12 +52,15 @@ namespace DiplomskiRad.Classes
             this.organizer = organizer;
         }
         #region Methods
+
+        public event Action WinnerSelected;
         public void AnnounceWinner(Participant winner)
         {
             MessageBox.Show("The winner of the tournament is: " + winner.GetName(), "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
             this.winner = winner;
             GlobalConfig.SqlConnection.SetWinner(winner, this);
 
+            WinnerSelected?.Invoke();
         }
         public string GetWinner()
         {
@@ -145,7 +148,7 @@ namespace DiplomskiRad.Classes
         public void ResetBracket()
         {
             bracket.ResetBracket();
-
+            this.winner = null;
         }
         // Putting participant on the selected index position
         public void SetSpecificParticipant(int index, Participant p)
